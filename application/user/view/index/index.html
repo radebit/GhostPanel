@@ -1,0 +1,173 @@
+{extend name="Common/common" /}
+
+{block name="title"}
+<title>{$web_title} - 用户中心 - 首页</title>
+<meta name="description" content="幽灵SS">
+<meta name="keywords" content="幽灵SS,幽灵SS用户中心">
+{/block}
+
+{block name="body"}<body data-type="index">{/block}
+
+{block name="main"}
+<div class="container-fluid am-cf">
+    <div class="row">
+        <div class="am-u-sm-12 am-u-md-12 am-u-lg-9">
+            <div class="page-header-heading"><span class="am-icon-home page-header-heading-icon"></span> 平台公告 <small>notice</small></div>
+            <p class="page-header-description">{$note_content}</p>
+        </div>
+        <div class="am-u-lg-3 tpl-index-settings-button">
+            <button type="button" class="page-header-button"><span class="am-icon-paint-brush"></span> GhostSS</button>
+        </div>
+    </div>
+
+</div>
+
+<div class="row-content am-cf">
+    <div class="row  am-cf">
+        <div class="am-u-sm-12 am-u-md-12 am-u-lg-4">
+            <div class="widget am-cf">
+                <div class="widget-head am-cf">
+                    <div class="widget-title am-fl">账户信息</div>
+                    <div class="widget-function am-fr">
+                        <a href="javascript:;" class="am-icon-cog"></a>
+                    </div>
+                </div>
+                <div class="widget-body am-fr">
+                    <div class="am-fl">
+                        <div class="widget-fluctuation-period-text">
+                            用户名：{$user_name}
+                        </div><br>
+                        <div class="widget-fluctuation-period-text">
+                            上次登录时间：{$user_last_login_time}
+                        </div><br>
+                        <div class="widget-fluctuation-period-text">
+                            上次登录IP：{$user_last_ip}
+                        </div><br>
+                        <div class="widget-fluctuation-period-text">
+                            注册时间：{$user_reg_time}
+                        </div>
+                        <a href="{:url('./userinfo')}"><button class="widget-fluctuation-tpl-btn">修改密码</button></a>
+                    </div>
+                    <div class="am-fr am-cf">
+                        <!--右侧-->
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="am-u-sm-12 am-u-md-6 am-u-lg-4">
+            <div class="widget widget-primary am-cf">
+                <div class="widget-statistic-header">
+                    账号余额
+                </div>
+                <div class="widget-statistic-body">
+                    <div class="widget-statistic-value">
+                        ￥{$user_balance}元
+                    </div>
+                    <div class="widget-statistic-description">
+                        <a href="{:url('./pay')}"><button class="widget-fluctuation-tpl-btn">立即充值</button></a>
+                    </div>
+                    <span class="widget-statistic-icon am-icon-credit-card-alt"></span>
+                </div>
+            </div>
+        </div>
+        <div class="am-u-sm-12 am-u-md-6 am-u-lg-4">
+            <div class="widget widget-purple am-cf">
+                <div class="widget-statistic-header">
+                    已开通的服务
+                </div>
+                <div class="widget-statistic-body">
+                    <div class="widget-statistic-value">
+                        套餐：{$user_service_type}
+                    </div>
+                    <div class="widget-statistic-description">
+                        到期时间： <strong>{$user_vip_time}</strong>
+                    </div>
+                    <span class="widget-statistic-icon am-icon-support"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row am-cf">
+        <div class="am-u-sm-12 am-u-md-8">
+            <div class="widget am-cf">
+                <div class="widget-head am-cf">
+                    <div class="widget-title am-fl">流量数据统计 <span>离线</span></div>
+                    <div class="widget-function am-fr">
+                        <a href="javascript:;" class="am-icon-cog"></a>
+                    </div>
+                </div>
+                <div class="widget-body-md widget-body tpl-amendment-echarts am-fr" id="tpl-echarts">
+
+                </div>
+            </div>
+        </div>
+
+        <div class="am-u-sm-12 am-u-md-4">
+            <div class="widget am-cf">
+                <div class="widget-head am-cf">
+                    <div class="widget-title am-fl">服务器负载</div>
+                    <div class="widget-function am-fr">
+                        <a href="javascript:;" class="am-icon-cog"></a>
+                    </div>
+                </div>
+                <div class="widget-body widget-body-md am-fr">
+
+                    <div class="am-progress-title">牵引服务器 <span class="am-fr am-progress-title-more">15% / 100%</span></div>
+                    <div class="am-progress">
+                        <div class="am-progress-bar am-progress-bar-success" style="width: 15%"></div>
+                    </div>
+                    <div class="am-progress-title">监控服务器 <span class="am-fr am-progress-title-more">67% / 100%</span></div>
+                    <div class="am-progress">
+                        <div class="am-progress-bar  am-progress-bar-warning" style="width: 67%"></div>
+                    </div>
+                    <div class="am-progress-title">加速节点 <span class="am-fr am-progress-title-more">32% / 100%</span></div>
+                    <div class="am-progress">
+                        <div class="am-progress-bar" style="width: 32%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row am-cf">
+        <div class="am-u-sm-12 am-u-md-12 am-u-lg-4 widget-margin-bottom-lg ">
+            <div class="tpl-user-card am-text-center widget-body-lg">
+                <div class="tpl-user-card-title">
+                    每日一句
+                </div>
+                <div class="achievement-subheading">
+                    A Daily Word
+                </div>
+                <img class="achievement-image" src="__img__/user07.png" alt="">
+                <div class="achievement-description">
+                    <strong>{$note_dayline}</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="am-u-sm-12 am-u-md-12 am-u-lg-8 widget-margin-bottom-lg">
+
+            <div class="widget am-cf widget-body-lg">
+
+                <div class="widget-body  am-fr">
+                    <div class="am-scrollable-horizontal ">
+                        <h3>节点延迟检测</h3>
+                        <div class="am-progress-title">
+                            监控服务器 离线
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{/block}
+
+{block name="jscode"}
+
+{/block}
+

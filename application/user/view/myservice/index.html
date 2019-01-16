@@ -1,0 +1,111 @@
+{extend name="Common/common" /}
+
+{block name="title"}
+    <title>{$web_title} - 用户中心 - 我的服务</title>
+    <meta name="description" content="幽灵SS">
+    <meta name="keywords" content="幽灵SS,幽灵SS用户中心">
+{/block}
+
+{block name="body"}<body data-type="widgets">{/block}
+
+{block name="main"}
+    <div class="container-fluid am-cf">
+        <div class="row">
+            <div class="am-u-sm-12 am-u-md-12 am-u-lg-9">
+                <div class="page-header-heading"><span class="am-icon-home page-header-heading-icon"></span> 我的服务 <small>MyService</small></div>
+                <p class="page-header-description">您购买的套餐服务都会显示在这里</p>
+            </div>
+            <div class="am-u-lg-3 tpl-index-settings-button">
+                <button type="button" class="page-header-button"><span class="am-icon-paint-brush"></span> 我的服务</button>
+            </div>
+        </div>
+    </div>
+    <div class="row-content am-cf">
+        <div class="row-content am-cf">
+            <div class="row">
+                <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
+                    <div class="widget am-cf">
+                        <div class="widget-head am-cf">
+                            <div class="widget-title  am-cf">我的服务</div>
+                        </div>
+                        <div class="widget-body  am-fr">
+                            <div class="am-u-sm-12 am-u-md-6 am-u-lg-6">
+                                <div class="am-form-group">
+                                    <div class="am-btn-toolbar">
+                                        <div class="am-btn-group am-btn-group-xs">
+                                            <a href="{:url('./buy')}"><button type="button" class="am-btn am-btn-default am-btn-success"><span class="am-icon-plus"></span> 购买新服务</button></a>
+                                            <a href="{:url('./help')}"><button type="button" class="am-btn am-btn-default am-btn-secondary"><span class="am-icon-bars"></span> 使用帮助</button></a>
+                                            <a href="{:url('./ticket')}"><button type="button" class="am-btn am-btn-default am-btn-primary"><span class="am-icon-archive"></span> 提交工单</button></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="am-u-sm-12 am-u-md-6 am-u-lg-3">
+                                <div class="am-form-group tpl-table-list-select">
+                                    <select data-am-selected="{btnSize: 'sm'}">
+                                        <option value="option1">所有类别</option>
+                                        <option value="option2">幽灵SS产品</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="am-u-sm-12 am-u-md-12 am-u-lg-3">
+                                <div class="am-input-group am-input-group-sm tpl-form-border-form cl-p">
+                                    <input type="text" class="am-form-field ">
+                                    <span class="am-input-group-btn">
+            <button class="am-btn  am-btn-default am-btn-success tpl-table-list-field am-icon-search" type="button"></button>
+          </span>
+                                </div>
+                            </div>
+
+                            <div class="am-u-sm-12">
+                                <table width="100%" class="am-table am-table-compact am-table-striped tpl-table-black " id="example-r">
+                                    <thead>
+                                    <tr>
+                                        <th width="20%">套餐类型</th>
+                                        <th width="20%">用户</th>
+                                        <th width="20%">购买时间</th>
+                                        <th width="20%">到期时间</th>
+                                        <th width="20%">操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {volist name='list' id='vo'}
+                                    <tr class="gradeX">
+                                        <td>{$vo.buy_type}</td>
+                                        <td>{$vo.user_name}</td>
+                                        <td>{$vo.buy_time}</td>
+                                        <td>{$vo.over_time}</td>
+                                        <td>
+                                            <div class="tpl-table-black-operation">
+                                                <a href="{:url('./nodelist')}">
+                                                    <i class="am-icon-pencil"></i> 产品管理
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {/volist}
+                                    <!-- more data -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="am-u-lg-12 am-cf">
+
+                                <div class="am-fr">
+                                    <ul class="am-pagination tpl-pagination">
+                                        <li class="am-disabled"><a href="#">«</a></li>
+                                        <li class="am-active"><a href="#">1</a></li>
+                                        <li><a href="#">»</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{/block}
+
+{block name="jscode"}
+
+{/block}

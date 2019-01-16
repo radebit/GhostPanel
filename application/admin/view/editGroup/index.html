@@ -1,0 +1,220 @@
+{extend name="Common/common" /}
+
+{block name="title"}
+<title>{$web_title} - 后台管理 - 分组管理</title>
+<meta name="description" content="幽灵SS">
+<meta name="keywords" content="幽灵SS,幽灵SS后台管理">
+{/block}
+
+{block name="main"}
+<div class="container-fluid am-cf">
+    <div class="row">
+        <div class="am-u-sm-12 am-u-md-12 am-u-lg-9">
+            <div class="page-header-heading"><span class="am-icon-home page-header-heading-icon"></span> 分组列表 <small>GroupList</small></div>
+            <p class="page-header-description">分组管理</p>
+        </div>
+        <div class="am-u-lg-3 tpl-index-settings-button">
+            <button type="button" class="page-header-button"><span class="am-icon-paint-brush"></span> 分组列表</button>
+        </div>
+    </div>
+</div>
+<div class="row-content am-cf">
+    <div class="row-content am-cf">
+        <div class="row">
+            <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
+                <div class="widget am-cf">
+                    <div class="widget-head am-cf">
+                        <div class="widget-title  am-cf">分组管理</div>
+                    </div>
+                    <div class="widget-body  am-fr">
+                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-6">
+                            <div class="am-form-group">
+                                <div class="am-btn-toolbar">
+                                    <div class="am-btn-group am-btn-group-xs">
+                                        <a href="javascript:" id="addGroup"><button type="button" class="am-btn am-btn-default am-btn-success"><span class="am-icon-plus"></span> 新建分组</button></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-3">
+                            <div class="am-form-group tpl-table-list-select">
+                                <select data-am-selected="{btnSize: 'sm'}">
+                                    <option value="option1">所有分组</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="am-u-sm-12 am-u-md-12 am-u-lg-3">
+                            <div class="am-input-group am-input-group-sm tpl-form-border-form cl-p">
+                                <input type="text" class="am-form-field ">
+                                <span class="am-input-group-btn">
+            <button class="am-btn  am-btn-default am-btn-success tpl-table-list-field am-icon-search" type="button"></button>
+          </span>
+                            </div>
+                        </div>
+
+                        <div class="am-u-sm-12">
+                            <table width="100%" class="am-table am-table-compact am-table-striped tpl-table-black " id="example-r">
+                                <thead>
+                                <tr>
+                                    <th>id编号</th>
+                                    <th>分组名称</th>
+                                    <th>线路列表(以,隔开)</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {volist name='list' id='vo'}
+                                <tr class="gradeX">
+                                    <td>{$vo.id}</td>
+                                    <td>{$vo.name}</td>
+                                    <td>{$vo.node}</td>
+                                    <td>
+                                        <div class="tpl-table-black-operation">
+                                            <a href="javascript:" name="{:url('editgroup/backGroup',array('id'=>$vo['id']))}" id="editGroup">
+                                                <i class="am-icon-pencil"></i> 编辑分组
+                                            </a>
+                                            <a href="javascript:" name="{:url('editgroup/delGroup',array('id'=>$vo['id']))}" class="tpl-table-black-operation-del" id="delGroup">
+                                                <i class="am-icon-trash"></i> 删除分组
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {/volist}
+                                <!-- more data -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="am-u-lg-12 am-cf">
+
+                            <div class="am-fr">
+                                <ul class="am-pagination tpl-pagination">
+                                    <li class="am-disabled"><a href="#">«</a></li>
+                                    <li class="am-active"><a href="#">1</a></li>
+                                    <li><a href="#">»</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+
+{block name="jscode"}
+<script>
+    $(function () {
+
+        //添加分组
+        $('#addGroup').click(function () {
+            var html='<div style="width:350px;height:200px;margin: 10px">分组名称：<input type="text" name="name">' +
+                '<br><br>线路列表：&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="node">' +
+                '<p>线路列表请填写线路id，多个id用,隔开</p>' +
+                '</div>';
+            layer.open({
+                type: 1,
+                area: ['390px', '350px'],
+                shadeClose: true,
+                title:'添加分组',
+                btn: ['添加分组','关闭'],
+                yes: function(){
+                    var name=$("input[name='name']").val();
+                    var node=$("input[name='node']").val();
+                    $.ajax({
+                        type:"post",
+                        url:'editgroup/addGroup',
+                        data:{
+                            name:name,
+                            node:node,
+                        },
+                        success:function (res) {
+                            if (res.status) {
+                                layer.msg(res.message,{time:1000})
+                            }else {
+                                layer.msg(res.message,{time:1000})
+                            }
+                        }
+                    });
+
+                    window.location.reload();
+                },
+                btn2: function(){
+                    layer.closeAll();
+                },
+                content:html ,
+            });
+        });
+
+        //编辑分组
+        $('td #editGroup').click(function () {
+            var url=$(this).attr('name');
+            $.ajax({
+                type:"POST",
+                url:url,
+                success:function (message) {
+                    var html='<div style="width:350px;height:260px;margin: 10px">分组ID：&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="id" value="'+message.id+'" disabled="disabled">' +
+                        '<br><br>分组名称：<input type="text" name="name" value="'+message.name+'">' +
+                        '<br><br>线路列表：&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="node" value="'+message.node+'">' +
+                        '<p>线路列表请填写线路id，多个id用,隔开</p>' +
+                        '</div>';
+                    layer.open({
+                        type: 1,
+                        area: ['390px', '400px'],
+                        shadeClose: true,
+                        title:'编辑线路',
+                        btn: ['保存修改','关闭'],
+                        yes: function(){
+                            var id=$("input[name='id']").val();
+                            var name=$("input[name='name']").val();
+                            var node=$("input[name='node']").val();
+                            $.ajax({
+                                type:"POST",
+                                url:'editgroup/changeGroup',
+                                data:{
+                                    id:id,
+                                    name:name,
+                                    node:node,
+                                },
+                                success:function (res) {
+                                    if (res.status) {
+                                        layer.msg(res.message,{time:1000})
+                                    }else {
+                                        layer.msg(res.message,{time:1000})
+                                    }
+                                }
+                            });
+
+                            window.location.reload();
+                        },
+                        btn2: function(){
+                            layer.closeAll();
+                        },
+                        content:html ,
+                    });
+                }
+            });
+        });
+
+        //删除分组
+        $('td #delGroup').click(function () {
+            var url=$(this).attr('name');
+            //弹出确认对话框
+            layer.confirm('是否确定删除此分组？',function () {
+                $.ajax({
+                    type:"GET",
+                    url:url,
+                    success:function (message) {
+                        layer.msg(message,{time:2000},function () {
+                            window.location.reload();
+                        });
+                    }
+                });
+            });
+            return false;
+        });
+
+    });
+
+</script>
+{/block}

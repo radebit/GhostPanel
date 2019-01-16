@@ -1,0 +1,147 @@
+{extend name="Common/common" /}
+
+{block name="title"}
+<title>{$web_title} - 用户中心 - 个人设置</title>
+<meta name="description" content="幽灵SS">
+<meta name="keywords" content="幽灵SS,幽灵SS用户中心">
+{/block}
+
+{block name="body"}<body data-type="widgets">{/block}
+
+{block name="main"}
+<div class="container-fluid am-cf">
+    <div class="row">
+        <div class="am-u-sm-12 am-u-md-12 am-u-lg-9">
+            <div class="page-header-heading"><span class="am-icon-home page-header-heading-icon"></span> 个人设置 <small>UserInfo</small></div>
+            <p class="page-header-description">编辑账号信息</p>
+        </div>
+        <div class="am-u-lg-3 tpl-index-settings-button">
+            <button type="button" class="page-header-button"><span class="am-icon-paint-brush"></span> 个人设置</button>
+        </div>
+    </div>
+</div>
+<div class="row-content am-cf">
+    <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
+        <div class="widget am-cf">
+            <div class="widget-head am-cf">
+                <div class="widget-title am-fl">账号设置-修改密码</div>
+                <div class="widget-function am-fr">
+                    <a href="javascript:;" class="am-icon-cog"></a>
+                </div>
+            </div>
+            <div class="widget-body am-fr">
+                <form class="am-form tpl-form-border-form tpl-form-border-br" action="{:url('changePass')}" method="post">
+                    <div class="am-form-group">
+                        <label class="am-u-sm-3 am-form-label">用户名 </label>
+                        <div class="am-u-sm-9">
+                            <label>{$user_name}</label>
+                        </div>
+                    </div>
+                    <div class="am-form-group">
+                        <label class="am-u-sm-3 am-form-label">原密码 </label>
+                        <div class="am-u-sm-9">
+                            <input type="password" class="tpl-form-input" name="oldPass" placeholder="请输入原始密码">
+                            <small>请填账号原来密码，忘记密码请联系客服！</small>
+                        </div>
+                    </div>
+                    <div class="am-form-group">
+                        <label class="am-u-sm-3 am-form-label">新密码 </label>
+                        <div class="am-u-sm-9">
+                            <input type="password" class="tpl-form-input" name="newPass" placeholder="请输入新密码">
+                        </div>
+                    </div>
+                    <div class="am-form-group">
+                        <label class="am-u-sm-3 am-form-label">重复新密码 </label>
+                        <div class="am-u-sm-9">
+                            <input type="password" class="tpl-form-input" name="reNewPass" placeholder="请再次输入新密码">
+                        </div>
+                    </div>
+                    <div class="am-form-group">
+                        <div class="am-u-sm-9 am-u-sm-push-3">
+                            <button type="submit" class="am-btn am-btn-primary tpl-btn-bg-color-success ">确认修改密码</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
+        <div class="widget am-cf">
+            <div class="widget-head am-cf">
+                <div class="widget-title am-fl">账号设置-修改邮箱地址</div>
+                <div class="widget-function am-fr">
+                    <a href="javascript:;" class="am-icon-cog"></a>
+                </div>
+            </div>
+            <div class="widget-body am-fr">
+                <form class="am-form tpl-form-border-form tpl-form-border-br" action="{:url('changeEmail')}" method="post">
+                    <div class="am-form-group">
+                        <label class="am-u-sm-3 am-form-label">邮箱地址 </label>
+                        <div class="am-u-sm-9">
+                            <label>{$user_email}</label>
+                        </div>
+                    </div>
+                    <div class="am-form-group">
+                        <label class="am-u-sm-3 am-form-label">修改邮箱 </label>
+                        <div class="am-u-sm-9">
+                            <input type="text" class="tpl-form-input" name="newEmail" placeholder="请输入新的邮箱地址">
+                            <small>为了确保您能收到幽灵SS服务提醒，请务必填写常用邮箱地址! 修改成功后，下次登录生效！</small>
+                        </div>
+                    </div>
+                    <div class="am-form-group">
+                        <div class="am-u-sm-9 am-u-sm-push-3">
+                            <button type="button" class="am-btn am-btn-primary tpl-btn-bg-color-success" id="getCheckCode">获取验证码</button>
+                        </div>
+                    </div>
+                    <div class="am-form-group">
+                        <label class="am-u-sm-3 am-form-label">验证码 </label>
+                        <div class="am-u-sm-9">
+                            <input type="text" class="tpl-form-input" name="checkCode" placeholder="请输入收到的验证码">
+                        </div>
+                    </div>
+                    <div class="am-form-group">
+                        <div class="am-u-sm-9 am-u-sm-push-3">
+                            <button type="button" class="am-btn am-btn-primary tpl-btn-bg-color-success" id="changeEmail">确认修改邮箱</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+
+{block name="jscode"}
+<script>
+    $("#getCheckCode").click(function() {
+        var newEmail=$("input[name='newEmail']").val();
+        $.ajax({
+            type:"post",
+            url:'userinfo/sendCheckCode',
+            data:{newEmail:newEmail},
+            success:function (res) {
+                if (res.status) {
+                    layer.msg(res.message,{time:1000})
+                }else {
+                    layer.msg(res.message,{time:1000})
+                }
+            }
+        });
+    });
+    $("#changeEmail").click(function() {
+        var checkCode=$("input[name='checkCode']").val();
+        $.ajax({
+            type:"post",
+            url:'userinfo/changeEmail',
+            data:{checkCode:checkCode},
+            success:function (res) {
+                if (res.status) {
+                    layer.msg(res.message,{time:1000})
+                }else {
+                    layer.msg(res.message,{time:1000})
+                }
+            }
+        });
+    })
+</script>
+{/block}

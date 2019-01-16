@@ -1,0 +1,215 @@
+{extend name="Common/common" /}
+
+{block name="title"}
+<title>{$web_title} - 后台管理 - 用户管理</title>
+<meta name="description" content="幽灵SS">
+<meta name="keywords" content="幽灵SS,幽灵SS后台管理">
+{/block}
+
+{block name="main"}
+<div class="container-fluid am-cf">
+    <div class="row">
+        <div class="am-u-sm-12 am-u-md-12 am-u-lg-9">
+            <div class="page-header-heading"><span class="am-icon-home page-header-heading-icon"></span> 用户列表 <small>UserList</small></div>
+            <p class="page-header-description">用户管理</p>
+        </div>
+        <div class="am-u-lg-3 tpl-index-settings-button">
+            <button type="button" class="page-header-button"><span class="am-icon-paint-brush"></span> 用户列表</button>
+        </div>
+    </div>
+</div>
+<div class="row-content am-cf">
+    <div class="row-content am-cf">
+        <div class="row">
+            <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
+                <div class="widget am-cf">
+                    <div class="widget-head am-cf">
+                        <div class="widget-title  am-cf">用户管理</div>
+                    </div>
+                    <div class="widget-body  am-fr">
+                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-6">
+                            <div class="am-form-group">
+                                <div class="am-btn-toolbar">
+                                    <div class="am-btn-group am-btn-group-xs">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-3">
+                            <div class="am-form-group tpl-table-list-select">
+                                <select data-am-selected="{btnSize: 'sm'}">
+                                    <option value="option1">所有用户</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="am-u-sm-12 am-u-md-12 am-u-lg-3">
+                            <div class="am-input-group am-input-group-sm tpl-form-border-form cl-p">
+                                <input type="text" class="am-form-field ">
+                                <span class="am-input-group-btn">
+            <button class="am-btn  am-btn-default am-btn-success tpl-table-list-field am-icon-search" type="button"></button>
+          </span>
+                            </div>
+                        </div>
+
+                        <div class="am-u-sm-12">
+                            <table width="100%" class="am-table am-table-compact am-table-striped tpl-table-black " id="example-r">
+                                <thead>
+                                <tr>
+                                    <th>id</th>
+                                    <th>用户名</th>
+                                    <th>邮箱</th>
+                                    <th>是否VIP</th>
+                                    <th>VIP到期时间</th>
+                                    <th>账户余额</th>
+                                    <th>所属分组</th>
+                                    <th>套餐类型</th>
+                                    <th>账户状态</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {volist name='list' id='vo'}
+                                <tr class="gradeX">
+                                    <td>{$vo.id}</td>
+                                    <td>{$vo.username}</td>
+                                    <td>{$vo.email}</td>
+                                    <td>{$vo.is_vip}</td>
+                                    <td>{$vo.vip_time}</td>
+                                    <td>{$vo.balance}</td>
+                                    <td>{$vo.group}</td>
+                                    <td>{$vo.service_type}</td>
+                                    <td>{$vo.status}</td>
+                                    <td>
+                                        <div class="tpl-table-black-operation">
+                                            <a href="javascript:" name="{:url('edituser/backUser',array('id'=>$vo['id']))}" id="editUser">
+                                                <i class="am-icon-pencil"></i> 编辑用户
+                                            </a>
+                                            <a href="javascript:" name="{:url('edituser/delUser',array('id'=>$vo['id']))}" class="tpl-table-black-operation-del" id="delUser">
+                                                <i class="am-icon-trash"></i> 删除用户
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {/volist}
+                                <!-- more data -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="am-u-lg-12 am-cf">
+
+                            <div class="am-fr">
+                                <ul class="am-pagination tpl-pagination">
+                                    <li class="am-disabled"><a href="#">«</a></li>
+                                    <li class="am-active"><a href="#">1</a></li>
+                                    <li><a href="#">»</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+
+{block name="jscode"}
+<script>
+    $(function () {
+
+        //编辑用户
+        $('td #editUser').click(function () {
+            var url=$(this).attr('name');
+            $.ajax({
+                type:"POST",
+                url:url,
+                success:function (message) {
+                    var html='<div style="width:350px;height:500px;margin: 10px">用户ID：&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="id" value="'+message.id+'" disabled="disabled">' +
+                        '<br><br>用户名：&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="username" value="'+message.username+'" disabled="disabled">' +
+                        '<br><br>密码：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="password">' +
+                        '<br><br>邮箱：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="email" value="'+message.email+'">' +
+                        '<br><br>QQ：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="qq" value="'+message.qq+'">' +
+                        '<br><br>上次登录IP：<input type="text" name="last_ip" value="'+message.last_ip+'" disabled="disabled">' +
+                        '<br><br>注册IP：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="ip_check" value="'+message.ip_check+'" disabled="disabled">' +
+                        '<br><br>注册时间：&nbsp;&nbsp;<input type="text" name="reg_time" value="'+message.reg_time+'" disabled="disabled">' +
+                        '<br><br>上次登录时间：<input type="text" name="last_login_time" value="'+message.last_login_time+'" disabled="disabled">' +
+                        '<br><br>是否VIP：&nbsp;&nbsp;&nbsp;<input type="text" name="is_vip" value="'+message.is_vip+'">' +
+                        '<br><br>会员时长：&nbsp;<input type="text" name="vip_time" value="'+message.vip_time+'" disabled="disabled">' +
+                        '<br><br>账户余额：&nbsp;<input type="text" name="balance" value="'+message.balance+'">' +
+                        '<br><br>套餐类型：&nbsp;<input type="text" name="service_type" value="'+message.service_type+'">' +
+                        '<br><br>账户状态：&nbsp;<input type="text" name="status" value="'+message.status+'">' +
+                        '<br><br>用户分组：&nbsp;<input type="text" name="group" value="'+message.group+'">' +
+                        '</div>';
+                    layer.open({
+                        type: 1,
+                        area: ['390px', '700px'],
+                        shadeClose: true,
+                        title:'编辑用户',
+                        btn: ['保存修改','关闭'],
+                        yes: function(){
+                            var id=$("input[name='id']").val();
+                            var password=$("input[name='password']").val();
+                            var email=$("input[name='email']").val();
+                            var qq=$("input[name='qq']").val();
+                            var is_vip=$("input[name='is_vip']").val();
+                            var balance=$("input[name='balance']").val();
+                            var service_type=$("input[name='service_type']").val();
+                            var status=$("input[name='status']").val();
+                            var group=$("input[name='group']").val();
+                            $.ajax({
+                                type:"POST",
+                                url:'edituser/changeUser',
+                                data:{
+                                    id:id,
+                                    password:password,
+                                    email:email,
+                                    qq:qq,
+                                    is_vip:is_vip,
+                                    balance:balance,
+                                    service_type:service_type,
+                                    status:status,
+                                    group:group,
+                                },
+                                success:function (res) {
+                                    if (res.status) {
+                                        layer.msg(res.message,{time:1000})
+                                    }else {
+                                        layer.msg(res.message,{time:1000})
+                                    }
+                                }
+                            });
+
+                            window.location.reload();
+                        },
+                        btn2: function(){
+                            layer.closeAll();
+                        },
+                        content:html ,
+                    });
+                }
+            });
+        });
+
+        //删除用户
+        $('td #delUser').click(function () {
+            var url=$(this).attr('name');
+            //弹出确认对话框
+            layer.confirm('是否确定删除此用户？',function () {
+                $.ajax({
+                    type:"GET",
+                    url:url,
+                    success:function (message) {
+                        layer.msg(message,{time:2000},function () {
+                            window.location.reload();
+                        });
+                    }
+                });
+            });
+            return false;
+        });
+
+    });
+
+</script>
+{/block}

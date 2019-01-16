@@ -1,0 +1,184 @@
+{extend name="Common/common" /}
+
+{block name="title"}
+<title>{$web_title} - 后台管理 - 首页</title>
+<meta name="description" content="幽灵SS">
+<meta name="keywords" content="幽灵SS,幽灵SS后台管理">
+{/block}
+
+{block name="main"}
+<div class="container-fluid am-cf">
+    <div class="row">
+        <div class="am-u-sm-12 am-u-md-12 am-u-lg-9">
+            <div class="page-header-heading"><span class="am-icon-home page-header-heading-icon"></span> 后台首页 <small>Admin</small></div>
+            <p class="page-header-description">欢迎使用GhostSS Panel</p>
+        </div>
+        <div class="am-u-lg-3 tpl-index-settings-button">
+            <button type="button" class="page-header-button"><span class="am-icon-paint-brush"></span> 后台首页</button>
+        </div>
+    </div>
+</div>
+<div class="row-content am-cf">
+    <div class="row-content am-cf">
+        <div class="row">
+            <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
+                <div class="widget am-cf">
+                    <div class="widget-head am-cf">
+                        <div class="widget-title  am-cf">网站设置</div>
+                    </div>
+                    <form class="am-form tpl-form-border-form">
+
+                        <div class="am-form-group">
+                            <label class="am-u-sm-12 am-form-label am-text-left">网站名称 </label>
+                            <div class="am-u-sm-12">
+                                <input type="text" class="tpl-form-input am-margin-top-xs" name="web_title" value="{$web_title}">
+                            </div>
+                        </div>
+                        <div class="am-form-group">
+                            <label class="am-u-sm-12 am-form-label am-text-left">管理员用户名 </label>
+                            <div class="am-u-sm-12">
+                                <input type="text" class="tpl-form-input am-margin-top-xs" name="admin_name" value="{$admin_name}">
+                            </div>
+                        </div>
+                        <div class="am-form-group">
+                            <label class="am-u-sm-12 am-form-label am-text-left">管理员密码 </label>
+                            <div class="am-u-sm-12">
+                                <input type="password" class="tpl-form-input am-margin-top-xs" name="admin_pass" value="{$admin_pass}">
+                            </div>
+                        </div>
+                        <div class="am-form-group">
+                            <label class="am-u-sm-12 am-form-label am-text-left">管理员邮箱 </label>
+                            <div class="am-u-sm-12">
+                                <input type="text" class="tpl-form-input am-margin-top-xs" name="admin_email" value="{$admin_email}">
+                            </div>
+                        </div>
+                        <div class="am-form-group">
+                            <label class="am-u-sm-12 am-form-label am-text-left">联系QQ </label>
+                            <div class="am-u-sm-12">
+                                <input type="text" class="tpl-form-input am-margin-top-xs" name="com_qq" value="{$com_qq}">
+                            </div>
+                        </div>
+                        <div class="am-form-group">
+                            <label class="am-u-sm-12 am-form-label am-text-left">联系邮箱 </label>
+                            <div class="am-u-sm-12">
+                                <input type="text" class="tpl-form-input am-margin-top-xs" name="com_email" value="{$com_email}">
+                            </div>
+                        </div>
+                        <div class="am-form-group">
+                            <label class="am-u-sm-12 am-form-label am-text-left">底部统计代码 </label>
+                            <div class="am-u-sm-12">
+                                <textarea  rows="5" name="statistics">{$statistics}</textarea>
+                            </div>
+                        </div>
+                        <div class="am-form-group">
+                            <div class="am-u-sm-12 am-u-sm-push-12">
+                                <button type="button" class="am-btn am-btn-primary tpl-btn-bg-color-success" id="changeConf">保存设置</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
+                <div class="widget am-cf">
+                    <div class="widget-head am-cf">
+                        <div class="widget-title  am-cf">公告设置</div>
+                    </div>
+                    <form class="am-form tpl-form-border-form">
+
+                        <div class="am-form-group">
+                            <label class="am-u-sm-12 am-form-label am-text-left">用户中心首页公告 </label>
+                            <div class="am-u-sm-12">
+                                <input type="text" class="tpl-form-input am-margin-top-xs" name="note_home" value="{$note_home}">
+                            </div>
+                        </div>
+                        <div class="am-form-group">
+                            <label class="am-u-sm-12 am-form-label am-text-left">用户中心首页每日一句 </label>
+                            <div class="am-u-sm-12">
+                                <input type="text" class="tpl-form-input am-margin-top-xs" name="note_dayline" value="{$note_dayline}">
+                            </div>
+                        </div>
+                        <div class="am-form-group">
+                            <label class="am-u-sm-12 am-form-label am-text-left">用户中心充值公告 </label>
+                            <div class="am-u-sm-12">
+                                <input type="text" class="tpl-form-input am-margin-top-xs" name="note_pay" value="{$note_pay}">
+                            </div>
+                        </div>
+                        <div class="am-form-group">
+                            <label class="am-u-sm-12 am-form-label am-text-left">用户中心购买公告 </label>
+                            <div class="am-u-sm-12">
+                                <input type="text" class="tpl-form-input am-margin-top-xs" name="note_buy" value="{$note_buy}">
+                            </div>
+                        </div>
+                        <div class="am-form-group">
+                            <div class="am-u-sm-12 am-u-sm-push-12">
+                                <button type="button" class="am-btn am-btn-primary tpl-btn-bg-color-success" id="changeNote">保存设置</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{/block}
+
+{block name="jscode"}
+<script>
+    $("#changeConf").click(function() {
+        var web_title=$("input[name='web_title']").val();
+        var admin_name=$("input[name='admin_name']").val();
+        var admin_pass=$("input[name='admin_pass']").val();
+        var admin_email=$("input[name='admin_email']").val();
+        var com_qq=$("input[name='com_qq']").val();
+        var com_email=$("input[name='com_email']").val();
+        var statistics=$("textarea[name='statistics']").val();
+        $.ajax({
+            type:"post",
+            url:'index/changeConf',
+            data:{
+                web_title:web_title,
+                admin_name:admin_name,
+                admin_pass:admin_pass,
+                admin_email:admin_email,
+                com_qq:com_qq,
+                com_email:com_email,
+                statistics:statistics,
+            },
+            success:function (res) {
+                if (res.status) {
+                    layer.msg(res.message,{time:1000})
+                }else {
+                    layer.msg(res.message,{time:1000})
+                }
+            }
+        });
+    });
+
+    $("#changeNote").click(function() {
+        var note_home=$("input[name='note_home']").val();
+        var note_dayline=$("input[name='note_dayline']").val();
+        var note_pay=$("input[name='note_pay']").val();
+        var note_buy=$("input[name='note_buy']").val();
+        $.ajax({
+            type:"post",
+            url:'index/changeNote',
+            data:{
+                note_home:note_home,
+                note_dayline:note_dayline,
+                note_pay:note_pay,
+                note_buy:note_buy,
+            },
+            success:function (res) {
+                if (res.status) {
+                    layer.msg(res.message,{time:1000})
+                }else {
+                    layer.msg(res.message,{time:1000})
+                }
+            }
+        });
+    })
+</script>
+{/block}

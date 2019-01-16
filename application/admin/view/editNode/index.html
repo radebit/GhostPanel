@@ -1,0 +1,329 @@
+{extend name="Common/common" /}
+
+{block name="title"}
+<title>{$web_title} - 后台管理 - 线路管理</title>
+<meta name="description" content="幽灵SS">
+<meta name="keywords" content="幽灵SS,幽灵SS后台管理">
+<script src="__js__/clipboard.min.js"></script>
+{/block}
+
+{block name="main"}
+<div class="container-fluid am-cf">
+    <div class="row">
+        <div class="am-u-sm-12 am-u-md-12 am-u-lg-9">
+            <div class="page-header-heading"><span class="am-icon-home page-header-heading-icon"></span> 线路列表 <small>NodeList</small></div>
+            <p class="page-header-description">线路管理</p>
+        </div>
+        <div class="am-u-lg-3 tpl-index-settings-button">
+            <button type="button" class="page-header-button"><span class="am-icon-paint-brush"></span> 线路列表</button>
+        </div>
+    </div>
+</div>
+<div class="row-content am-cf">
+    <div class="row-content am-cf">
+        <div class="row">
+            <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
+                <div class="widget am-cf">
+                    <div class="widget-head am-cf">
+                        <div class="widget-title  am-cf">线路管理</div>
+                    </div>
+                    <div class="widget-body  am-fr">
+                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-6">
+                            <div class="am-form-group">
+                                <div class="am-btn-toolbar">
+                                    <div class="am-btn-group am-btn-group-xs">
+                                        <a href="javascript:" id="addNode"><button type="button" class="am-btn am-btn-default am-btn-success"><span class="am-icon-plus"></span> 添加线路</button></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-3">
+                            <div class="am-form-group tpl-table-list-select">
+                                <select data-am-selected="{btnSize: 'sm'}">
+                                    <option value="option1">所有线路</option>
+                                    <option value="option2">专属线路</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="am-u-sm-12 am-u-md-12 am-u-lg-3">
+                            <div class="am-input-group am-input-group-sm tpl-form-border-form cl-p">
+                                <input type="text" class="am-form-field ">
+                                <span class="am-input-group-btn">
+            <button class="am-btn  am-btn-default am-btn-success tpl-table-list-field am-icon-search" type="button"></button>
+          </span>
+                            </div>
+                        </div>
+
+                        <div class="am-u-sm-12">
+                            <table width="100%" class="am-table am-table-compact am-table-striped tpl-table-black " id="example-r">
+                                <thead>
+                                <tr>
+                                    <th>id编号</th>
+                                    <th>线路名称</th>
+                                    <th>服务器IP</th>
+                                    <th>端口号</th>
+                                    <th>密码</th>
+                                    <th>加密方式</th>
+                                    <th>混淆方式</th>
+                                    <th>协议</th>
+                                    <th>协议参数</th>
+                                    <th>混淆参数</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {volist name='list' id='vo'}
+                                <tr class="gradeX">
+                                    <td>{$vo.id}</td>
+                                    <td>{$vo.name}</td>
+                                    <td>{$vo.ip_address}</td>
+                                    <td>{$vo.port}</td>
+                                    <td>{$vo.pass}</td>
+                                    <td>{$vo.encryption}</td>
+                                    <td>{$vo.confusion}</td>
+                                    <td>{$vo.agreement}</td>
+                                    <td>{$vo.agreement_cs}</td>
+                                    <td>{$vo.confusion_cs}</td>
+                                    <td>
+                                        <div class="tpl-table-black-operation">
+                                            <a href="javascript:" name="{:url('editnode/copyUrl',array('id'=>$vo['id']))}" id="copyUrl">
+                                                <i class="am-icon-copy"></i> 双击复制链接
+                                            </a>
+                                            <a href="javascript:" name="{:url('editnode/seeQrcode',array('id'=>$vo['id']))}" id="seeQrcode">
+                                                <i class="am-icon-eye"></i> 查看二维码
+                                            </a>
+                                            <a href="javascript:" name="{:url('editnode/backNode',array('id'=>$vo['id']))}" id="editNode">
+                                                <i class="am-icon-pencil"></i> 编辑线路
+                                            </a>
+                                            <a href="javascript:" name="{:url('editnode/delNode',array('id'=>$vo['id']))}" class="tpl-table-black-operation-del" id="delNode">
+                                                <i class="am-icon-trash"></i> 删除线路
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {/volist}
+                                <!-- more data -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="am-u-lg-12 am-cf">
+
+                            <div class="am-fr">
+                                <ul class="am-pagination tpl-pagination">
+                                    <li class="am-disabled"><a href="#">«</a></li>
+                                    <li class="am-active"><a href="#">1</a></li>
+                                    <li><a href="#">»</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+
+{block name="jscode"}
+<script>
+    $(function () {
+        //复制URL
+        $('td #copyUrl').click(function () {
+            var url=$(this).attr('name');
+            $.ajax({
+                type:"POST",
+                url:url,
+                success:function (message) {
+                    console.log(message);
+                    new ClipboardJS('td #copyUrl', {
+                        text: function() {
+                            layer.msg('复制成功！');
+                            return message;
+                        }
+                    });
+                }
+            });
+
+        });
+
+        //查看二维码
+        $('td #seeQrcode').click(function () {
+            var url=$(this).attr('name');
+            $.ajax({
+                type:"POST",
+                url:url,
+                success:function (message) {
+                    var html='<div style="width:198px;height:198px;margin: auto"><img src="'+message+'"></div>';
+                    layer.open({
+                        type: 1,
+                        area: ['320px', '320px'],
+                        shadeClose: true,
+                        title:'扫描二维码 一键导入配置',
+                        btn: '关闭',
+                        yes: function(){
+                            layer.closeAll();
+                        },
+                        content:html ,
+                    });
+                }
+            });
+        });
+
+    //添加线路
+    $('#addNode').click(function () {
+        var html='<div style="width:350px;height:400px;margin: 10px">线路名称：<input type="text" name="name">' +
+            '<br><br>服务IP：&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="ip_address">' +
+            '<br><br>端口号：&nbsp;&nbsp;&nbsp;<input type="text" name="port">' +
+            '<br><br>密码：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="pass">' +
+            '<br><br>加密方式：<input type="text" name="encryption">' +
+            '<br><br>混淆方式：<input type="text" name="confusion">' +
+            '<br><br>协议：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="agreement">' +
+            '<br><br>协议参数：<input type="text" name="agreement_cs">' +
+            '<br><br>混淆参数：<input type="text" name="confusion_cs">' +
+            '<br><br>SSR链接：&nbsp;<input type="text" name="url">' +
+            '</div>';
+        layer.open({
+            type: 1,
+            area: ['390px', '650px'],
+            shadeClose: true,
+            title:'添加线路',
+            btn: ['添加线路','关闭'],
+            yes: function(){
+                var name=$("input[name='name']").val();
+                var ip_address=$("input[name='ip_address']").val();
+                var port=$("input[name='port']").val();
+                var pass=$("input[name='pass']").val();
+                var encryption=$("input[name='encryption']").val();
+                var confusion=$("input[name='confusion']").val();
+                var agreement=$("input[name='agreement']").val();
+                var agreement_cs=$("input[name='agreement_cs']").val();
+                var confusion_cs=$("input[name='confusion_cs']").val();
+                var url=$("input[name='url']").val();
+                $.ajax({
+                    type:"post",
+                    url:'editnode/addNode',
+                    data:{
+                        name:name,
+                        ip_address:ip_address,
+                        port:port,
+                        pass:pass,
+                        encryption:encryption,
+                        confusion:confusion,
+                        agreement:agreement,
+                        agreement_cs:agreement_cs,
+                        confusion_cs:confusion_cs,
+                        url:url,
+                    },
+                    success:function (res) {
+                        if (res.status) {
+                            layer.msg(res.message,{time:1000})
+                        }else {
+                            layer.msg(res.message,{time:1000})
+                        }
+                    }
+                });
+
+                window.location.reload();
+            },
+            btn2: function(){
+                layer.closeAll();
+            },
+            content:html ,
+        });
+    });
+
+    //编辑线路
+        $('td #editNode').click(function () {
+            var url=$(this).attr('name');
+            $.ajax({
+                type:"POST",
+                url:url,
+                success:function (message) {
+                    var html='<div style="width:350px;height:400px;margin: 10px">线路ID：&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="id" value="'+message.id+'">' +
+                        '<br><br>线路名称：<input type="text" name="name" value="'+message.name+'">' +
+                        '<br><br>服务IP：&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="ip_address" value="'+message.ip_address+'">' +
+                        '<br><br>端口号：&nbsp;&nbsp;&nbsp;<input type="text" name="port" value="'+message.port+'">' +
+                        '<br><br>密码：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="pass" value="'+message.pass+'">' +
+                        '<br><br>加密方式：<input type="text" name="encryption" value="'+message.encryption+'">' +
+                        '<br><br>混淆方式：<input type="text" name="confusion" value="'+message.confusion+'">' +
+                        '<br><br>协议：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="agreement" value="'+message.agreement+'">' +
+                        '<br><br>协议参数：<input type="text" name="agreement_cs" value="'+message.agreement_cs+'">' +
+                        '<br><br>混淆参数：<input type="text" name="confusion_cs" value="'+message.confusion_cs+'">' +
+                        '<br><br>SSR链接：&nbsp;<input type="text" name="url" value="'+message.url+'">' +
+                        '</div>';
+                    layer.open({
+                        type: 1,
+                        area: ['390px', '680px'],
+                        shadeClose: true,
+                        title:'编辑线路',
+                        btn: ['保存修改','关闭'],
+                        yes: function(){
+                            var id=$("input[name='id']").val();
+                            var name=$("input[name='name']").val();
+                            var ip_address=$("input[name='ip_address']").val();
+                            var port=$("input[name='port']").val();
+                            var pass=$("input[name='pass']").val();
+                            var encryption=$("input[name='encryption']").val();
+                            var confusion=$("input[name='confusion']").val();
+                            var agreement=$("input[name='agreement']").val();
+                            var agreement_cs=$("input[name='agreement_cs']").val();
+                            var confusion_cs=$("input[name='confusion_cs']").val();
+                            var url=$("input[name='url']").val();
+                            $.ajax({
+                                type:"POST",
+                                url:'editnode/changeNode',
+                                data:{
+                                    id:id,
+                                    name:name,
+                                    ip_address:ip_address,
+                                    port:port,
+                                    pass:pass,
+                                    encryption:encryption,
+                                    confusion:confusion,
+                                    agreement:agreement,
+                                    agreement_cs:agreement_cs,
+                                    confusion_cs:confusion_cs,
+                                    url:url,
+                                },
+                                success:function (res) {
+                                    if (res.status) {
+                                        layer.msg(res.message,{time:1000})
+                                    }else {
+                                        layer.msg(res.message,{time:1000})
+                                    }
+                                }
+                            });
+
+                            window.location.reload();
+                        },
+                        btn2: function(){
+                            layer.closeAll();
+                        },
+                        content:html ,
+                    });
+                }
+            });
+        });
+
+        //删除线路
+        $('td #delNode').click(function () {
+            var url=$(this).attr('name');
+            //弹出确认对话框
+            layer.confirm('是否确定删除此条线路？',function () {
+                $.ajax({
+                    type:"GET",
+                    url:url,
+                    success:function (message) {
+                        layer.msg(message,{time:2000},function () {
+                            window.location.reload();
+                        });
+                    }
+                });
+            });
+            return false;
+        });
+
+    });
+
+</script>
+{/block}

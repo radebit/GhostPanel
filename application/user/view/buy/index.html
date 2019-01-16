@@ -1,0 +1,91 @@
+{extend name="Common/common" /}
+
+{block name="title"}
+<title>{$web_title} - 用户中心 - 购买套餐</title>
+<meta name="description" content="幽灵SS">
+<meta name="keywords" content="幽灵SS,幽灵SS用户中心">
+{/block}
+
+{block name="body"}<body data-type="widgets">{/block}
+
+{block name="main"}
+<div class="container-fluid am-cf">
+    <div class="row">
+        <div class="am-u-sm-12 am-u-md-12 am-u-lg-9">
+            <div class="page-header-heading"><span class="am-icon-home page-header-heading-icon"></span> 购买公告 <small>notice</small></div>
+            <p class="page-header-description">{$note_content}</p>
+        </div>
+        <div class="am-u-lg-3 tpl-index-settings-button">
+            <button type="button" class="page-header-button"><span class="am-icon-paint-brush"></span> 套餐购买</button>
+        </div>
+    </div>
+
+</div>
+
+<div class="row-content am-cf">
+    <div class="row  am-cf">
+
+        {volist name='list' id='vo'}
+        <div class="am-u-sm-12 am-u-md-6 am-u-lg-4">
+            <div class="widget widget-primary am-cf">
+                <div class="widget-statistic-header">
+                    套餐名称
+                </div>
+                <div class="widget-statistic-body">
+                    <div class="widget-statistic-value">
+                        {$vo.name}
+                    </div>
+                    <br>
+                    <span class="widget-statistic-icon am-icon-credit-card-alt"></span>
+                </div>
+                <div class="widget am-cf">
+                    <div class="widget-head am-cf">
+                        <div class="widget-title am-fl">套餐详情</div>
+                        <div class="widget-function am-fr">
+                            <a href="javascript:;" class="am-icon-cog"></a>
+                        </div>
+                    </div>
+                    <div class="widget-body am-fr">
+                        <p>流量：不限制</p>
+                        <p>带宽：100Mbps</p>
+                        <p>节点：{$vo.node_num}个节点</p>
+                        <p>设备数：{$vo.dev_num}个设备</p>
+                        <p>时长：{$vo.long_time}天</p>
+                        <p>价格：￥{$vo.price}</p>
+                        <p>说明：{$vo.introduce}</p>
+                    </div>
+                </div>
+                <div class="widget-statistic-description">
+                    <button class="widget-fluctuation-tpl-btn" id="buyBtn" name="{:url('buy/buyTc',array('id'=>$vo['id']))}" tctype="{$vo['id']}">立即购买</button>
+                </div>
+            </div>
+        </div>
+        {/volist}
+
+    </div>
+</div>
+{/block}
+
+{block name="jscode"}
+<script>
+    $("div #buyBtn").click(function() {
+        var url=$(this).attr('name');
+        var data=$(this).attr('tctype');
+        layer.confirm('购买会覆盖原有套餐，是否确认购买此套餐？',function () {
+            $.ajax({
+                type:"POST",
+                url:url,
+                data:{Tctype:data},
+                success:function (res) {
+                    if (res.status) {
+                        layer.msg(res.message,{time:1000})
+                    }else {
+                        layer.msg(res.message,{time:1000})
+                    }
+                }
+            });
+        });
+        return false;
+    });
+</script>
+{/block}

@@ -1,0 +1,172 @@
+{extend name="Common/common" /}
+
+{block name="title"}
+<title>{$web_title} - 用户中心 - 线路列表</title>
+<meta name="description" content="幽灵SS">
+<meta name="keywords" content="幽灵SS,幽灵SS用户中心">
+<script src="__js__/clipboard.min.js"></script>
+{/block}
+
+{block name="body"}<body data-type="widgets">{/block}
+
+{block name="main"}
+<div class="container-fluid am-cf">
+    <div class="row">
+        <div class="am-u-sm-12 am-u-md-12 am-u-lg-9">
+            <div class="page-header-heading"><span class="am-icon-home page-header-heading-icon"></span> 线路列表 <small>NodeList</small></div>
+            <p class="page-header-description">如有疑问，请先查看使用帮助或者咨询客服</p>
+        </div>
+        <div class="am-u-lg-3 tpl-index-settings-button">
+            <button type="button" class="page-header-button"><span class="am-icon-paint-brush"></span> 线路列表</button>
+        </div>
+    </div>
+</div>
+<div class="row-content am-cf">
+    <div class="row-content am-cf">
+        <div class="row">
+            <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
+                <div class="widget am-cf">
+                    <div class="widget-head am-cf">
+                        <div class="widget-title  am-cf">线路列表</div>
+                    </div>
+                    <div class="widget-body  am-fr">
+                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-6">
+                            <div class="am-form-group">
+                                <div class="am-btn-toolbar">
+                                    <div class="am-btn-group am-btn-group-xs">
+                                        <a href="{:url('./buy')}"><button type="button" class="am-btn am-btn-default am-btn-success"><span class="am-icon-plus"></span> 升级套餐</button></a>
+                                        <a href="{:url('./help')}"><button type="button" class="am-btn am-btn-default am-btn-secondary"><span class="am-icon-bars"></span> 使用帮助</button></a>
+                                        <a href="{:url('./ticket')}"><button type="button" class="am-btn am-btn-default am-btn-primary"><span class="am-icon-archive"></span> 提交工单</button></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="am-u-sm-12 am-u-md-6 am-u-lg-3">
+                            <div class="am-form-group tpl-table-list-select">
+                                <select data-am-selected="{btnSize: 'sm'}">
+                                    <option value="option1">所有线路</option>
+                                    <option value="option2">专属线路</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="am-u-sm-12 am-u-md-12 am-u-lg-3">
+                            <div class="am-input-group am-input-group-sm tpl-form-border-form cl-p">
+                                <input type="text" class="am-form-field ">
+                                <span class="am-input-group-btn">
+            <button class="am-btn  am-btn-default am-btn-success tpl-table-list-field am-icon-search" type="button"></button>
+          </span>
+                            </div>
+                        </div>
+
+                        <div class="am-u-sm-12">
+                            <table width="100%" class="am-table am-table-compact am-table-striped tpl-table-black " id="example-r">
+                                <thead>
+                                <tr>
+                                    <th>线路名称</th>
+                                    <th>服务器IP</th>
+                                    <th>端口号</th>
+                                    <th>密码</th>
+                                    <th>加密方式</th>
+                                    <th>混淆方式</th>
+                                    <th>协议</th>
+                                    <th>协议参数</th>
+                                    <th>混淆参数</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {volist name='list' id='vo'}
+                                <tr class="gradeX">
+                                    <td>{$vo.name}</td>
+                                    <td>{$vo.ip_address}</td>
+                                    <td>{$vo.port}</td>
+                                    <td>{$vo.pass}</td>
+                                    <td>{$vo.encryption}</td>
+                                    <td>{$vo.confusion}</td>
+                                    <td>{$vo.agreement}</td>
+                                    <td>{$vo.agreement_cs}</td>
+                                    <td>{$vo.confusion_cs}</td>
+                                    <td>
+                                        <div class="tpl-table-black-operation">
+                                            <a href="javascript:" name="{:url('nodelist/copyUrl',array('id'=>$vo['id']))}" id="copyUrl">
+                                                <i class="am-icon-copy"></i> 双击复制链接
+                                            </a>
+                                            <a href="javascript:" name="{:url('nodelist/seeQrcode',array('id'=>$vo['id']))}" id="seeQrcode">
+                                                <i class="am-icon-eye"></i> 查看二维码
+                                            </a>
+                                            <a href="{:url('./ticket')}">
+                                                <i class="am-icon-pencil"></i> 故障申报
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {/volist}
+                                <!-- more data -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="am-u-lg-12 am-cf">
+
+                            <div class="am-fr">
+                                <ul class="am-pagination tpl-pagination">
+                                    <li class="am-disabled"><a href="#">«</a></li>
+                                    <li class="am-active"><a href="#">1</a></li>
+                                    <li><a href="#">»</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+
+{block name="jscode"}
+<script>
+    $(function () {
+        //复制URL
+        $('td #copyUrl').click(function () {
+            var url=$(this).attr('name');
+            $.ajax({
+                type:"POST",
+                url:url,
+                success:function (message) {
+                    console.log(message);
+                    new ClipboardJS('td #copyUrl', {
+                        text: function() {
+                            layer.msg('复制成功！');
+                            return message;
+                        }
+                    });
+                }
+            });
+
+        });
+
+        //查看二维码
+        $('td #seeQrcode').click(function () {
+            var url=$(this).attr('name');
+            $.ajax({
+                type:"POST",
+                url:url,
+                success:function (message) {
+                    var html='<div style="width:198px;height:198px;margin: auto"><img src="'+message+'"></div>';
+                    layer.open({
+                        type: 1,
+                        area: ['320px', '320px'],
+                        shadeClose: true,
+                        title:'扫描二维码 一键导入配置',
+                        btn: '关闭',
+                        yes: function(){
+                            layer.closeAll();
+                        },
+                        content:html ,
+                    });
+                }
+            });
+        });
+    })
+</script>
+{/block}

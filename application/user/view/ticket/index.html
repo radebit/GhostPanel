@@ -1,0 +1,219 @@
+{extend name="Common/common" /}
+
+{block name="title"}
+<title>{$web_title} - 用户中心 - 工单系统</title>
+<meta name="description" content="幽灵SS">
+<meta name="keywords" content="幽灵SS,幽灵SS用户中心">
+{/block}
+
+{block name="body"}<body data-type="widgets">{/block}
+
+{block name="main"}
+<div class="container-fluid am-cf">
+    <div class="row">
+        <div class="am-u-sm-12 am-u-md-12 am-u-lg-9">
+            <div class="page-header-heading"><span class="am-icon-home page-header-heading-icon"></span> 工单系统 <small>Ticket</small></div>
+            <p class="page-header-description">如遇问题，您可以在此提交工单，我们在收到工单后会帮您处理！</p>
+        </div>
+        <div class="am-u-lg-3 tpl-index-settings-button">
+            <button type="button" class="page-header-button"><span class="am-icon-paint-brush"></span> 工单系统</button>
+        </div>
+    </div>
+</div>
+<div class="row-content am-cf">
+    <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
+        <div class="row">
+            <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
+                <div class="widget am-cf">
+                    <div class="widget-head am-cf">
+                        <div class="widget-title am-fl">工单系统-提交新工单</div>
+                        <div class="widget-function am-fr">
+                            <a href="javascript:;" class="am-icon-cog"></a>
+                        </div>
+                    </div>
+                    <div class="widget-body am-fr">
+
+                        <form class="am-form tpl-form-border-form" action="{:url('sendTicket')}" method="post">
+
+                            <div class="am-form-group">
+                                <label class="am-u-sm-12 am-form-label am-text-left">用户名： {$user_name} </label>
+                            </div>
+
+                            <div class="am-form-group">
+                                <label class="am-u-sm-12 am-form-label am-text-left">工单标题 </label>
+                                <div class="am-u-sm-12">
+                                    <input type="text" class="tpl-form-input am-margin-top-xs" name="tk_title" placeholder="请输入工单标题">
+                                    <small>请填写工单标题10-20字左右。</small>
+                                </div>
+                            </div>
+
+                            <div class="am-form-group">
+                                <label class="am-u-sm-12 am-form-label am-text-left">问题类型 </label>
+                                <div class="am-u-sm-12  am-margin-top-xs">
+                                    <select data-am-selected="{searchBox: 1}" style="display: none;">
+                                        <option value="1">线路故障</option>
+                                        <option value="2">软件问题</option>
+                                        <option value="3">充值问题</option>
+                                        <option value="4">购买问题</option>
+                                        <option value="5">其他问题</option>
+                                    </select>
+
+                                </div>
+                            </div>
+
+                            <div class="am-form-group">
+                                <label class="am-u-sm-12 am-form-label  am-text-left">匿名</label>
+                                <div class="am-u-sm-12">
+                                    <div class="tpl-switch">
+                                        <input type="checkbox" class="ios-switch bigswitch tpl-switch-btn am-margin-top-xs" checked="">
+                                        <div class="tpl-switch-btn-view">
+                                            <div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="am-form-group">
+                                <label class="am-u-sm-12 am-form-label  am-text-left">工单内容</label>
+                                <div class="am-u-sm-12 am-margin-top-xs">
+                                    <textarea  rows="10" name="tk_content" placeholder="请输入工单内容"></textarea>
+                                    <small>请具体描述您所遇到的问题，并请务必附上您的联系方式！</small>
+                                </div>
+                            </div>
+
+                            <div class="am-form-group">
+                                <div class="am-u-sm-12 am-u-sm-push-12">
+                                    <button type="submit" class="am-btn am-btn-primary tpl-btn-bg-color-success ">提交工单</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
+                <div class="widget am-cf">
+                    <div class="widget-head am-cf">
+                        <div class="widget-title am-fl">工单系统-我的工单</div>
+                        <div class="widget-function am-fr">
+                            <a href="javascript:;" class="am-icon-cog"></a>
+                        </div>
+                    </div>
+                    <div class="widget-body am-fr">
+                        <table width="100%" class="am-table am-table-compact am-table-bordered am-table-radius am-table-striped tpl-table-black " id="example-r">
+                            <thead>
+                            <tr>
+                                <th width="10%">工单编号</th>
+                                <th width="40%">工单标题</th>
+                                <th width="15%">提交时间</th>
+                                <th width="10%">工单状态</th>
+                                <th width="25%">操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {volist name='list' id='vo'}
+                            <tr class="gradeX">
+                                <td>{$vo.id}</td>
+                                <td>{$vo.title}</td>
+                                <td>{$vo.sub_time}</td>
+                                <td>{$vo.status}</td>
+                                <td>
+                                    <div class="tpl-table-black-operation">
+                                        <a href="javascript:" name="{:url('ticket/seeContent',array('id'=>$vo['id']))}" id="seeContent">
+                                            <i class="am-icon-pencil"></i> 查看工单
+                                        </a>
+                                        <a href="javascript:" name="{:url('ticket/seeReply',array('id'=>$vo['id']))}" id="seeReply">
+                                            <i class="am-icon-send"></i> 查看回复
+                                        </a>
+                                        <a href="{:url('ticket/delTicket',array('id'=>$vo['id']))}" class="tpl-table-black-operation-del" id="delTicket">
+                                            <i class="am-icon-trash"></i> 删除工单
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            {/volist}
+
+                            <!-- more data -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{/block}
+
+{block name="jscode"}
+<script>
+    $(function () {
+        //查看工单内容
+        $('td #seeContent').click(function () {
+            var url=$(this).attr('name');
+            $.ajax({
+                type:"POST",
+                url:url,
+                success:function (message) {
+                    var html='<div style="padding: 30px"><h4>工单标题：<span style="color: #6e6e6e"> '+message.title+'</span></h4><h3>工单内容：</h3><p>&nbsp;&nbsp;&nbsp;&nbsp;'+message.content+'</p><h4><span>工单提交时间：<span style="color: #6e6e6e">'+message.sub_time+'</span></h4></div>';
+                    layer.open({
+                        type: 1,
+                        area: ['60%', '50%'],
+                        shadeClose: true,
+                        title:'工单内容',
+                        btn: '关闭',
+                        yes: function(){
+                            layer.closeAll();
+                        },
+                        content:html ,
+                    });
+                }
+            });
+        });
+        //查看工单回复内容
+        $('td #seeReply').click(function () {
+            var url=$(this).attr('name');
+            $.ajax({
+                type:"POST",
+                url:url,
+                success:function (message) {
+                    var html='<div style="padding: 30px"><h4>工单标题：<span style="color: #6e6e6e"> '+message.title+'</span></h4><h3>工单回复内容：</h3><p>&nbsp;&nbsp;&nbsp;&nbsp;'+message.back+'</p><h4><span>工单回复时间：<span style="color: #6e6e6e">'+message.back_time+'</span></h4></div>';
+                    layer.open({
+                        type: 1,
+                        area: ['60%', '50%'],
+                        shadeClose: true,
+                        title:'工单回复内容',
+                        btn: '我知道了',
+                        yes: function(){
+                            layer.closeAll();
+                        },
+                        content:html ,
+                    });
+                }
+            });
+        });
+        //删除工单
+        $('td #delTicket').click(function () {
+            var url=$(this).attr('href');
+            //弹出确认对话框
+            layer.confirm('是否确定删除此工单？',function () {
+                $.ajax({
+                    type:"GET",
+                    url:url,
+                    success:function (message) {
+                        layer.msg(message,{time:2000},function () {
+                            window.location.reload();
+                        });
+                    }
+                });
+            });
+            return false;
+        });
+
+    })
+</script>
+{/block}
