@@ -5,6 +5,8 @@
 ### Introduction
 
 Based on the ThinkPHP 5.0 framework, GhostPanel allows you to manage multi-user shawdowsocks and sales management integration systems more conveniently and quickly.
+
+
 url:wget -N --no-check-certificate https://raw.githubusercontent.com/FunctionClub/SSR-Bash-Python/master/install.sh && bash install.sh
 
 ### Features:
